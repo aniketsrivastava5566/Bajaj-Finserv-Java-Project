@@ -11,15 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Set up JDK 11
+    - name: Set up JDK 11 with Maven
       uses: actions/setup-java@v4
       with:
         java-version: '11'
         distribution: 'temurin'
-        
-    - name: Setup Maven
-      uses: stCarolas/setup-maven@v3
-      with:
         maven-version: '3.9.5'
         
     - name: Build with Maven
