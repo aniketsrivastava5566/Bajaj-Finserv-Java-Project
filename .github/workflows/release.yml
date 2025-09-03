@@ -3,54 +3,55 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v1.0'
+      - 'v*'   # allows v1.0, v1.1, etc.
+
+permissions:
+  contents: write   # 👈 Needed so GITHUB_TOKEN can create releases
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 11 with Maven
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        
-    - name: Build with Maven
-      run: mvn clean package
-      
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        body: |
-          # 🏥 Bajaj Finserv Health Qualifier - Spring Boot Application
-          
-          ## What's Included:
-          - Complete Spring Boot application with 3-step workflow automation
-          - Maven build configuration and setup scripts
-          - Comprehensive documentation and GitHub Actions CI/CD
-          
-          ## JAR File:
-          - `your-app-name-0.0.1-SNAPSHOT.jar`
-          - Ready for immediate execution
-          - Requires Java 11 to run
-          
-          ## Quick Start:
-          ```bash
-          java -jar your-app-name-0.0.1-SNAPSHOT.jar
-          ```
-          
-          ## Features:
-          - REST API integration with external services
-          - Automated workflow execution
-          - Professional project structure
-          - Enterprise-grade development practices
-        draft: false
-        prerelease: false
-        files: |
-          target/your-app-name-0.0.1-SNAPSHOT.jar
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 11 with Maven
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            # 🏥 Bajaj Finserv Health Qualifier - Spring Boot Application
+
+            ## What's Included:
+            - Complete Spring Boot application with 3-step workflow automation
+            - Maven build configuration and setup scripts
+            - Comprehensive documentation and GitHub Actions CI/CD
+
+            ## JAR File:
+            - `your-app-name-0.0.1-SNAPSHOT.jar`
+            - Ready for immediate execution
+            - Requires Java 11 to run
+
+            ## Quick Start:
+            ```bash
+            java -jar your-app-name-0.0.1-SNAPSHOT.jar
+            ```
+
+            ## Features:
+            - REST API integration with external services
+            - Automated workflow execution
+            - Professional project structure
+            - Enterprise-grade development practices
+          draft: false
+          prerelease: false
+          files: |
+            target/your-app-name-0.0.1-SNAPSHOT.jar
